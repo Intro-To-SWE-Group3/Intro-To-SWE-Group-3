@@ -31,5 +31,5 @@ def listing_payload():
         "item_price": 10,
         "item_type": "Book",
         "seller_id": 2,
-        "image_data": "image-bytes",
+        "image_data": "aW1hZ2UtYnl0ZXM=",
     }

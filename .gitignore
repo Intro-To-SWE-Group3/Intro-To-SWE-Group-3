@@ -1,2 +1,5 @@
 __pycache__
 .image-preview
+.env
+.venv
+.pytest_cache
