@@ -1,3 +1,9 @@
 # Lists the Python packages required to run the backend.
 # Install all dependencies with:
 # pip install -r requirements.txt
+python-dotenv
+flask
+flask-cors
+azure-storage-blob
+pyodbc
+pytest
