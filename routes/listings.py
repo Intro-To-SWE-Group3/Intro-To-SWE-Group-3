@@ -3,6 +3,9 @@
 # Handles requests for creating listings, retrieving all listings,
 # and retrieving information about a specific listing.
 
+import base64
+import binascii
+
 import flask
 from uuid import uuid4
 from database.db import get_db_connection
@@ -39,6 +42,14 @@ def create_listing():
     if not isinstance(data['image_data'], str) or not data['image_data']:
         return flask.jsonify({"error": "image_data must be a non-empty string"}), 400
 
+    encoded_image = data['image_data']
+    if encoded_image.startswith('data:') and ',' in encoded_image:
+        encoded_image = encoded_image.split(',', 1)[1]
+    try:
+        image_bytes = base64.b64decode(encoded_image, validate=True)
+    except (binascii.Error, ValueError):
+        return flask.jsonify({"error": "image_data must be valid Base64"}), 400
+
     azure_storage = AzureBlobStorage()
     
     item_name = data.get('item_name')
@@ -46,9 +57,8 @@ def create_listing():
     item_price = data.get('item_price')
     item_type = data.get('item_type')
     seller_id = data.get('seller_id')
-    image_data = data.get('image_data')
     image_blob_name = f"{uuid4()}.jpg"
-    image_url = azure_storage.upload_image(image_blob_name, image_data.encode('utf-8'))
+    image_url = azure_storage.upload_image(image_blob_name, image_bytes)
 
     # Insert the listing into the database
     insert_listing(item_name, item_description, item_price, item_type, seller_id, image_url, image_blob_name)

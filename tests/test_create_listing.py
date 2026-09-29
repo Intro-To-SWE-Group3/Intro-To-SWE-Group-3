@@ -66,6 +66,15 @@ def test_create_listing_rejects_missing_image_data(client, listing_payload):
     assert response.get_json()["fields"] == ["image_data"]
 
 
+def test_create_listing_rejects_invalid_base64(client, listing_payload):
+    listing_payload["image_data"] = "not-valid-base64"
+
+    response = client.post("/listings", json=listing_payload)
+
+    assert response.status_code == 400
+    assert response.get_json()["error"] == "image_data must be valid Base64"
+
+
 def test_create_listing_generates_different_names(client, listing_payload, monkeypatch):
     uploaded_names = []
 
