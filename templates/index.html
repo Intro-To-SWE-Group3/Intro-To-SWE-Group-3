@@ -1,16 +1,63 @@
-    <!doctype html>
-    <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-        <script src="{{ url_for('static', filename='js/index.js') }}"></script>
-        <title>KSU Trade Market</title>
-    </head>
-    <body>
-        <h1>KSU Trade Market</h1>
-        <p>A marketplace for useful finds shared by fellow students.</p>
-        <h2>Available listings</h2>
-        <p>Listings will appear here.</p>
-    </body>
-    </html>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KSU Trade Market</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/index.css') }}">
+    <script src="{{ url_for('static', filename='js/index.js') }}" defer></script>
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="/">
+            <span>KSU</span> Trade Market
+        </a>
+
+        <nav class="main-nav" aria-label="Main navigation">
+            <a class="active" href="/">Home</a>
+            <a href="/messages">Messages</a>
+            <a href="#featured-listings">＋ Post Item</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1><span>Buy.</span> Sell. Trade.</h1>
+            <p>Powered by Students. For Students.</p>
+
+            <label class="search-box">
+                <span class="sr-only">Search listings</span>
+                <input id="search-input" type="search"
+                       placeholder="Search for textbooks, furniture, electronics, and more...">
+            </label>
+        </section>
+
+        <nav class="categories" aria-label="Listing categories">
+            <button class="selected" data-category="All">All</button>
+            <button data-category="Textbooks">Textbooks</button>
+            <button data-category="Furniture">Furniture</button>
+            <button data-category="Electronics">Electronics</button>
+            <button data-category="Clothing">Clothing</button>
+            <button data-category="Dorm Essentials">Dorm Essentials</button>
+            <button data-category="Other">Other</button>
+        </nav>
+
+        <section id="featured-listings" class="featured-listings">
+            <div class="section-heading">
+                <h2>Featured Listings</h2>
+                <label>
+                    Sort by
+                    <select id="sort-listings">
+                        <option value="newest">Newest First</option>
+                    </select>
+                </label>
+            </div>
+
+            <div id="listing-grid" class="listing-grid">
+                <p>Loading listings...</p>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
