@@ -17,7 +17,7 @@
         <nav class="main-nav" aria-label="Main navigation">
             <a class="active" href="/">Home</a>
             <a href="/messages">Messages</a>
-            <a href="#featured-listings">＋ Post Item</a>
+            <a href="/create">＋ Post Item</a>
         </nav>
     </header>
 
@@ -34,7 +34,7 @@
         </section>
 
         <nav class="categories" aria-label="Listing categories">
-            <button class="selected" data-category="All">All</button>
+            <button class="selected" data-category="All" aria-pressed="true">All</button>
             <button data-category="Textbooks">Textbooks</button>
             <button data-category="Furniture">Furniture</button>
             <button data-category="Electronics">Electronics</button>
@@ -50,6 +50,9 @@
                     Sort by
                     <select id="sort-listings">
                         <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
                     </select>
                 </label>
             </div>

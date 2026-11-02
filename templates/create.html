@@ -1,66 +1,107 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Listing | KSU Trade Hub</title>
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Post an Item | KSU Trade Market</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </head>
-
 <body>
+    <header class="site-header">
+        <a class="brand" href="{{ url_for('homepage') }}">
+            <span>KSU</span> Trade Market
+        </a>
 
-    <header>
-        <h1>KSU Trade Hub</h1>
-
-        <nav>
+        <nav class="main-nav" aria-label="Main navigation">
             <a href="{{ url_for('homepage') }}">Home</a>
-            <a href="{{ url_for('create_listing') }}">Create Listing</a>
+            <a href="/messages">Messages</a>
+            <a class="active" href="{{ url_for('create_listing') }}">＋ Post Item</a>
         </nav>
     </header>
 
-    <main class="container">
+    <main>
+        <section class="create-hero">
+            <h1>Create a Listing</h1>
+            <p>Got something to sell? Post it for fellow Owls in under a minute.</p>
+        </section>
 
-        <h2>Create a Listing</h2>
-        <p>Enter the details of the item you want to sell.</p>
+        <form id="listingForm" class="create-card" method="post"
+              action="{{ url_for('listings.create_listing') }}" novalidate>
 
-        <form id="listingForm" action="{{ url_for('listings.create_listing') }}">
+            <div class="create-grid">
+                <section class="form-section">
+                    <h2>Item details</h2>
 
-            <label for="itemName">Item Name</label>
-            <input type="text" id="itemName" required>
+                    <div class="field">
+                        <label for="itemName">Item name</label>
+                        <input type="text" id="itemName" name="item_name" maxlength="100"
+                               placeholder="e.g. Calculus: Early Transcendentals, 8th Ed." required>
+                    </div>
 
-            <label for="itemDescription">Item Description</label>
-            <textarea id="itemDescription" required></textarea>
+                    <div class="field">
+                        <div class="field__label-row">
+                            <label for="itemDescription">Description</label>
+                            <span id="descriptionCount" class="field__hint">0 / 500</span>
+                        </div>
+                        <textarea id="itemDescription" name="item_description" maxlength="500"
+                                  placeholder="Condition, pickup location, anything a buyer should know..." required></textarea>
+                    </div>
 
-            <label for="itemPrice">Item Price ($)</label>
-            <input type="number" id="itemPrice" min="0" step="0.01" required>
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="itemPrice">Price</label>
+                            <div class="price-input">
+                                <span aria-hidden="true">$</span>
+                                <input type="number" id="itemPrice" name="item_price"
+                                       min="0" step="0.01" placeholder="0.00" required>
+                            </div>
+                        </div>
 
-            <label for="category">Category</label>
-            <select id="category" required>
-                <option value="">Select a category</option>
-                <option value="Textbooks">Textbooks</option>
-                <option value="Electronics">Electronics</option>
-                <option value="Clothing">Clothing</option>
-                <option value="School Supplies">School Supplies</option>
-                <option value="Other">Other</option>
-            </select>
+                        <div class="field">
+                            <label for="sellerID">Seller ID</label>
+                            <input type="text" id="sellerID" name="seller_id" placeholder="Your student ID" required>
+                        </div>
+                    </div>
 
-            <label for="sellerID">Seller ID</label>
-            <input type="text" id="sellerID" required>
+                    <fieldset class="field">
+                        <legend>Category</legend>
+                        <div class="category-picker">
+                            {% for category in ["Textbooks", "Furniture", "Electronics", "Clothing", "Dorm Essentials", "Other"] %}
+                            <label class="category-option">
+                                <input type="radio" name="category" value="{{ category }}" required>
+                                <span>{{ category }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </fieldset>
+                </section>
 
-            <label for="imageFile">Item Image</label>
-            <input type="file" id="imageFile" accept="image/*" required>
+                <section class="form-section">
+                    <h2>Photo</h2>
 
-            <button type="submit">Create Listing</button>
+                    <label id="dropZone" class="drop-zone" for="imageFile">
+                        <input type="file" id="imageFile" name="image" accept="image/*" required>
+                        <img id="imagePreview" class="drop-zone__preview" alt="Selected item preview" hidden>
+                        <span id="dropZonePrompt" class="drop-zone__prompt">
+                            <span class="drop-zone__icon" aria-hidden="true">📷</span>
+                            <strong>Click to upload</strong> or drag and drop
+                            <small>PNG or JPG, clear and well lit works best</small>
+                        </span>
+                    </label>
+                    <button type="button" id="removeImage" class="link-button" hidden>Remove photo</button>
+                </section>
+            </div>
 
-            <p id="statusMessage"></p>
-
+            <div class="form-footer">
+                <p id="statusMessage" role="status" aria-live="polite"></p>
+                <div class="form-actions">
+                    <a class="button button--ghost" href="{{ url_for('homepage') }}">Cancel</a>
+                    <button type="submit" id="submitButton" class="button button--primary">Post Listing</button>
+                </div>
+            </div>
         </form>
-
     </main>
-
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-
 </body>
 </html>
