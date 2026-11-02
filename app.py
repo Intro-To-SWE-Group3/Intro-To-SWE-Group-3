@@ -9,20 +9,16 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 
 from routes.listings import app as listings_blueprint
+# Connect the homepage routes to the Flask app.
+from routes.homepage import app as homepage_blueprint
 
 app = flask.Flask(__name__)
 app.register_blueprint(listings_blueprint)
+# Register the homepage routes with the Flask app.
+app.register_blueprint(homepage_blueprint)
 
 from flask_cors import CORS
 CORS(app)
-
-
-
-# When someone visits the site's home page using a GET request,
-# Flask runs the homepage function below. 
-@app.route("/", methods=["GET"])
-def homepage():
-    return flask.render_template("index.html")
 
 
 if __name__ == '__main__':

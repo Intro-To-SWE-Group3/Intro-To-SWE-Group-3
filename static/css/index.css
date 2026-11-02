@@ -1,3 +1,235 @@
-body h1 {
-    color: red;
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f5f5f2;
+    color: #17191d;
+    font-family: Arial, sans-serif;
+}
+
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 4%;
+    background: #111317;
+    color: white;
+}
+
+.brand {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.brand span,
+.hero h1 span {
+    color: #f7c83d;
+}
+
+.main-nav {
+    display: flex;
+    gap: 26px;
+}
+
+.main-nav a {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.main-nav a.active {
+    color: #f7c83d;
+}
+
+main {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.hero {
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+    border-radius: 8px;
+    background: linear-gradient(rgba(15, 20, 16, 0.42), rgba(15, 20, 16, 0.42)), url('../images/ksu-campus.jpg') center 48% / cover no-repeat;
+    color: white;
+    text-align: center;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: 42px;
+}
+
+.hero p {
+    margin: 8px 0 20px;
+    font-weight: bold;
+}
+
+.search-box {
+    width: min(600px, 100%);
+}
+
+.search-box input {
+    width: 100%;
+    padding: 15px 18px;
+    border: 0;
+    border-radius: 24px;
+    font-size: 15px;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+}
+
+@media (max-width: 600px) {
+    .site-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .main-nav {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+}
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 18px 0 28px;
+}
+
+.categories button {
+    padding: 10px 18px;
+    border: 0;
+    border-radius: 22px;
+    background: white;
+    color: #17191d;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.categories button:first-child {
+    background: #f7c83d;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.section-heading h2 {
+    margin: 0;
+}
+
+.section-heading select {
+    padding: 9px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+}
+.listing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    margin-top: 22px;
+}
+
+.listing-card {
+    overflow: hidden;
+    border: 1px solid #e7e8e3;
+    border-radius: 14px;
+    background: white;
+    box-shadow: 0 8px 24px rgba(15, 20, 16, 0.08);
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.listing-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(15, 20, 16, 0.14);
+}
+
+.listing-card__image,
+.listing-card__image-placeholder {
+    display: grid;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    place-items: center;
+    background: linear-gradient(135deg, #f8edc8, #e8eddf);
+}
+
+.listing-card__image-placeholder {
+    font-size: 48px;
+}
+
+.listing-card__body {
+    display: flex;
+    min-height: 190px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px;
+}
+
+.listing-card__category {
+    padding: 6px 10px;
+    border-radius: 20px;
+    background: #fff4c8;
+    color: #655213;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.listing-card h3 {
+    margin: 14px 0 8px;
+    font-size: 18px;
+    line-height: 1.35;
+}
+
+.listing-card__description {
+    margin: 0;
+    color: #666a65;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.listing-card__price {
+    margin: auto 0 0;
+    padding-top: 16px;
+    color: #20241f;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+@media (max-width: 900px) {
+    .listing-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .listing-grid {
+        grid-template-columns: 1fr;
+    }
 }
