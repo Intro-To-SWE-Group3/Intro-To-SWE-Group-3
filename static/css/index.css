@@ -128,8 +128,19 @@ main {
     cursor: pointer;
 }
 
-.categories button:first-child {
+.categories button:hover {
+    box-shadow: inset 0 0 0 2px #f7c83d;
+}
+
+.categories button.selected {
     background: #f7c83d;
+}
+
+.listing-grid__empty {
+    grid-column: 1 / -1;
+    margin: 30px 0;
+    color: #666a65;
+    text-align: center;
 }
 
 .section-heading {

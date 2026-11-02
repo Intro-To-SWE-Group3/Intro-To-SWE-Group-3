@@ -52,6 +52,67 @@ function makeListingCard(listing) {
     return card;
 }
 
+const searchInput = document.getElementById("search-input");
+const sortSelect = document.getElementById("sort-listings");
+const categoryButtons = document.querySelectorAll(".categories button");
+
+let allListings = [];
+let selectedCategory = "All";
+
+function getListingTime(listing, index) {
+    const created = Date.parse(listing.Created_At || listing.Date_Created || "");
+    // Fall back to database order (later rows are newer) when there is no timestamp column.
+    return Number.isNaN(created) ? index : created;
+}
+
+function renderListings() {
+    const query = searchInput.value.trim().toLowerCase();
+
+    const visible = allListings
+        .map((listing, index) => ({ listing, index }))
+        .filter(({ listing }) => {
+            const category = listing.Item_Type || "Other";
+            if (selectedCategory !== "All" && category !== selectedCategory) {
+                return false;
+            }
+            if (!query) {
+                return true;
+            }
+            return [listing.Item_Name, listing.Item_Description, category]
+                .some((field) => String(field || "").toLowerCase().includes(query));
+        });
+
+    const price = ({ listing }) => Number(listing.Item_Price) || 0;
+    const sorters = {
+        newest: (a, b) => getListingTime(b.listing, b.index) - getListingTime(a.listing, a.index),
+        oldest: (a, b) => getListingTime(a.listing, a.index) - getListingTime(b.listing, b.index),
+        "price-asc": (a, b) => price(a) - price(b),
+        "price-desc": (a, b) => price(b) - price(a),
+    };
+    visible.sort(sorters[sortSelect.value] || sorters.newest);
+
+    listingGrid.replaceChildren();
+
+    if (allListings.length === 0) {
+        listingGrid.textContent = "No listings available yet.";
+        return;
+    }
+
+    if (visible.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "listing-grid__empty";
+        empty.textContent = query
+            ? `No listings match "${searchInput.value.trim()}"${selectedCategory !== "All" ? ` in ${selectedCategory}` : ""}.`
+            : `No listings in ${selectedCategory} yet.`;
+        listingGrid.append(empty);
+        return;
+    }
+
+    for (const { listing } of visible) {
+        listingGrid.append(makeListingCard(listing));
+    }
+}
+
 async function loadListings() {
     try {
         const response = await fetch("/listings");
@@ -61,20 +122,27 @@ async function loadListings() {
         }
 
         const listings = await response.json();
-        listingGrid.replaceChildren();
-
-        if (!Array.isArray(listings) || listings.length === 0) {
-            listingGrid.textContent = "No listings available yet.";
-            return;
-        }
-
-        for (const listing of listings) {
-            listingGrid.append(makeListingCard(listing));
-        }
+        allListings = Array.isArray(listings) ? listings : [];
+        renderListings();
     } catch (error) {
         console.error("Could not load listings:", error);
         listingGrid.textContent = "Could not load listings. Please try again.";
     }
 }
+
+for (const button of categoryButtons) {
+    button.addEventListener("click", () => {
+        selectedCategory = button.dataset.category;
+        for (const other of categoryButtons) {
+            const isSelected = other === button;
+            other.classList.toggle("selected", isSelected);
+            other.setAttribute("aria-pressed", String(isSelected));
+        }
+        renderListings();
+    });
+}
+
+searchInput.addEventListener("input", renderListings);
+sortSelect.addEventListener("change", renderListings);
 
 loadListings();
