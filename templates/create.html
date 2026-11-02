@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Listing | KSU Trade Hub</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <h1>KSU Trade Hub</h1>
+
+        <nav>
+            <a href="{{ url_for('homepage') }}">Home</a>
+            <a href="{{ url_for('create_listing') }}">Create Listing</a>
+        </nav>
+    </header>
+
+    <main class="container">
+
+        <h2>Create a Listing</h2>
+        <p>Enter the details of the item you want to sell.</p>
+
+        <form id="listingForm" action="{{ url_for('listings.create_listing') }}">
+
+            <label for="itemName">Item Name</label>
+            <input type="text" id="itemName" required>
+
+            <label for="itemDescription">Item Description</label>
+            <textarea id="itemDescription" required></textarea>
+
+            <label for="itemPrice">Item Price ($)</label>
+            <input type="number" id="itemPrice" min="0" step="0.01" required>
+
+            <label for="category">Category</label>
+            <select id="category" required>
+                <option value="">Select a category</option>
+                <option value="Textbooks">Textbooks</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Clothing">Clothing</option>
+                <option value="School Supplies">School Supplies</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="sellerID">Seller ID</label>
+            <input type="text" id="sellerID" required>
+
+            <label for="imageFile">Item Image</label>
+            <input type="file" id="imageFile" accept="image/*" required>
+
+            <button type="submit">Create Listing</button>
+
+            <p id="statusMessage"></p>
+
+        </form>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

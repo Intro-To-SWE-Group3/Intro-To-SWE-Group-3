@@ -4,6 +4,17 @@ from uuid import UUID
 import routes.listings as listings
 
 
+def test_create_page_renders_with_valid_routes_and_assets(client):
+    response = client.get("/create")
+
+    assert response.status_code == 200
+    assert b"Create a Listing" in response.data
+    assert b'href="/"' in response.data
+    assert b'action="/listings"' in response.data
+    assert client.get("/static/css/style.css").status_code == 200
+    assert client.get("/static/js/script.js").status_code == 200
+
+
 def test_create_listing_generates_uuid_image_name(client, listing_payload, monkeypatch):
     uploaded = {}
     inserted = {}

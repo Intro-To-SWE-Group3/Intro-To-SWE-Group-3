@@ -24,6 +24,9 @@ CORS(app)
 def homepage():
     return flask.render_template("index.html")
 
+@app.route("/create", methods=["GET"])
+def create_listing():
+    return flask.render_template("create.html")
 
 if __name__ == '__main__':
     # Start the Flask development server
