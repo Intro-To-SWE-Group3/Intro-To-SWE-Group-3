@@ -6,6 +6,9 @@
 import os
 import pyodbc
 
+def _odbc_value(value):
+    return "{" + value.replace("}", "}}") + "}"
+
 def get_db_connection():
     """
     Establish a connection to the SQL database.
@@ -20,8 +23,13 @@ def get_db_connection():
         raise RuntimeError("SQL database environment variables are not fully configured")
 
     connection_string = (
-        f"DRIVER={{{driver}}};SERVER={server};PORT=1433;"
-        f"DATABASE={database};UID={username};PWD={password}"
+        f"DRIVER={{{driver}}};"
+        f"SERVER=tcp:{server},1433;"
+        f"DATABASE={_odbc_value(database)};"
+        f"UID={_odbc_value(username)};"
+        f"PWD={_odbc_value(password)};"
+        "Encrypt=yes;"
+        "TrustServerCertificate=no;"
     )
 
-    return pyodbc.connect(connection_string)
+    return pyodbc.connect(connection_string, timeout=30)
