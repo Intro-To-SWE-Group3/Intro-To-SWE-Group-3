@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Messages | KSU Marketplace</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/messages.css') }}">
+</head>
+<body>
+  <div class="msg-app">
+
+    <aside class="inbox" id="inbox">
+      <header class="inbox-head">
+        <a class="back" href="/">Back to listings</a>
+        <h1>Messages</h1>
+      </header>
+      <ul class="convo-list" id="convoList"></ul>
+    </aside>
+
+    <main class="chat" id="chat">
+      <header class="chat-head">
+        <button class="inbox-toggle" id="showInbox" type="button">Inbox</button>
+        <div>
+          <h2 id="chatTitle">Select a conversation</h2>
+          <p id="chatListing" class="chat-listing"></p>
+        </div>
+      </header>
+
+      <div class="thread" id="thread" aria-live="polite">
+        <p class="empty">Pick a conversation on the left to start messaging.</p>
+      </div>
+
+      <form class="composer" id="composer" autocomplete="off">
+        <input id="messageInput" type="text" placeholder="Write a message" maxlength="500" aria-label="Message" disabled>
+        <button type="submit" id="sendBtn" disabled>Send</button>
+      </form>
+    </main>
+
+  </div>
+  <script src="{{ url_for('static', filename='js/messages.js') }}"></script>
+</body>
+</html>
