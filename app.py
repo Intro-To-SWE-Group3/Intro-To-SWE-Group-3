@@ -10,11 +10,13 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 
 from routes.listings import app as listings_blueprint
+from routes.messages_ui import messages_bp
 from routes.homepage import app as homepage_blueprint
 
 app = flask.Flask(__name__)
 
 app.register_blueprint(listings_blueprint)
+app.register_blueprint(messages_bp)
 app.register_blueprint(homepage_blueprint)
 
 CORS(app)
